@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load extra_tags %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% block color %}
+    <link rel="stylesheet" href="{% static 'home/css/product_style.css' %}">
+    <link rel="stylesheet" href="{% static 'home/js/product.js' %}">
+{% endblock %}
+{% block content %} 
+
+    
+    <div class="container-fluid" >
+        <div class="row" style="float: right;">
+            <div class="col">
+                <nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">{{product.name|truncatewords:5}}</li>
+                        <li class="breadcrumb-item"><a href="{{top_category.get_absolute_url}}">{{top_category}}</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'home:home' %}">خانه</a></li>
+                        
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <br><br>
+        <div class="row d-flex flex-row-reverse" >
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <img src="{{product.img.url}}" alt="" class="w-100">
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-xs-12 shadow rounded p-4">
+                <div class="bigfont ">{{product.name}}</div><br>
+                <a href="#comments" style="text-decoration: none;"><button type="submit" class="btn btn-secondary d-inline">دیدگاه {{total|persian_int}}</button></a>
+                <a href="http://" style="text-decoration: none;"><button type="submit" class="btn btn-secondary d-inline">مشخصات</button></a>
+                <div class="bigfont">ویژگی ها</div><br>
+                <div class="text-black-50 smallfont">{{product.descriptions }}</div>
+                <br>
+                {% if not product.avalible %}
+                <div class="notavalible">در حال حاضر این محصول در انبار موجود نیست و در دسترس نمی باشد.</div>
+                {% else %}
+                <div class="color">
+                    <div class="fontb">رنگ :</div><br>
+                    
+                        
+                </div>
+                <br>
+                <br>
+                <div style="float: right;direction: rtl;">
+                    <div style="padding-bottom: 27px;">
+                    موجود در انبار
+                    </div>
+
+                
+                    <form action="{% url 'orders:cart_add' product.id %}" method="post" >
+                        {% csrf_token %}
+                        <div style="width: 80px;">{{form|crispy}}</div>
+                        <button class="btn" type="submit" style="background-color: rgb(245, 150, 30);color: white;font-size: 14px;padding: 9px;">افزودن به سبد خرید</button>
+                    </form>
+                    <div style="font-size: 30px;padding-top: 18px;">{{product.price|persian_int}} تومان</div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-6 col-sm-6 col-xs-12">price</div>
+        </div>
+        <br>
+
+
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 ont-bold dic d-flex flex-row-reverse tab-pane fade">
+
+            <ul class="nav nav-tabs d-flex flex-row mb-3" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">دیدگاه</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">توضیحات</button>
+                </li>
+            </ul>
+            <div class="row d-flex flex-row" id="comments">
+            id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                <div class="bigfont">دیدگاه ({{total|persian_int}})</div>
+                <div class="align-self-end" style="float: left;"><a href="#comment_form"><button type="submit" class="btn btn-danger">ارسال دیدگاه</button></a></div>
+                <div class="align-self-center">
+                    <div class="bignum " style="text-align: center;">{{mean_score}}</div>
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+                        <span class="fa fa-star {% if mean_score > 0 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if mean_score > 1 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if mean_score > 2 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if mean_score > 3 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if mean_score > 4 %} checked {% endif %}"></span>
+                </div><br>
+                
+                {% for comment in comments %}
+                <div class="fonta " style="margin-bottom: 15px;">{{comment.user.first_name}}&nbsp{{comment.user.last_name}}</div>
+                <br>
+                <div class="text-black-50 smallerfont" style="margin-bottom: 15px;">{% if comment.is_buyer %} (خریدار){% endif %}&nbsp-&nbsp{{comment.created}}</div><br>
+                
+                    <div>
+                        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+                        <span class="fa fa-star {% if comment.score > 0 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if comment.score > 1 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if comment.score > 2 %} checked {% endif %}"></span>
+                        <span class="fa fa-star {% if comment.score > 3 %} checked {% endif %}" ></span>
+                        <span class="fa fa-star {% if comment.score > 4 %} checked {% endif %}"></span>
+                        
+                    </div>
+                    <div class="text-black-50 smallfont">{{comment.user_comment}}</div>
+                    
+                        <div class="comment">
+                                <p>{{ comment.text }}</p>
+                            <p>
+                                Likes: <span id="likes-count-{{ comment.id }}">{{ comment.likes.count }}</span>
+                                {% if request.user.is_authenticated %}
+                                    <button class="like-button" data-comment-id="{{ comment.id }}" data-liked="{% if request.user in comment.likes.all %}true{% else %}false{% endif %}">
+                                        {% if request.user in comment.likes.all %}
+                                            Unlike
+                                        {% else %}
+                                            Like
+                                        {% endif %}
+                                    </button>
+                                {% else %}
+                                    <a href="{% url 'accounts:user_login' %}">Login to like</a>
+                                {% endif %}
+                            </p>
+                        </div>
+                        
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function() {
+                                $('.like-button').click(function(e) {
+                                    e.preventDefault();
+                                    var commentId = $(this).data('comment-id');
+                                    var liked = $(this).data('liked');
+                                    var button = $(this);
+                        
+                                    $.ajax({
+                                        url: 'home/like_comment/' + commentId + '/',
+                                        type: 'GET',
+                                        success: function(data) {
+                                            $('#likes-count-' + commentId).text(data.likes_count);
+                                            if (data.liked) {
+                                                button.text('Unlike');
+                                                button.data('liked', 'true');
+                                            } else {
+                                                button.text('Like');
+                                                button.data('liked', 'false');
+                                            }
+                                        },
+                                        error: function(xhr, status, error) {
+                                            console.error("AJAX error: " + status + " : " + error);
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                        \\sdfdf
+                        <button class="like-button" data-comment-id="{{ comment.id }}" data-action="like">
+                            Like (<span class="likes-count">{{ comment.likes.count }}</span>)
+                        </button>
+                        
+                        <button class="dislike-button" data-comment-id="{{ comment.id }}" data-action="dislike">
+                            Dislike (<span class="dislikes-count">{{ comment.dislikes.count }}</span>)
+                        </button>
+                    <hr>
+                {% endfor %}
+            </div>
+            <div class="row " id="comment_form">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 "></div>
+                    <form method="post" action="{% url 'home:comment_create' product.slug %}" >
+                        {% csrf_token %}
+                        {{ comment_form|crispy }}
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+            </div>
+        
+        
+        
+                
+            <div class="color-container">
+                <div class="color-box color-red" data-color="{{c}}"></div>
+            </div>
+
+    
+            <script>
+                const colorBoxes = document.querySelectorAll('.color-box');
+        
+                colorBoxes.forEach(box => {
+                    box.addEventListener('click', function() {
+                        const selectedColor = this.dataset.color;
+                        // ذخیره رنگ انتخاب شده در یک متغیر global یا در یک عنصر HTML
+                        document.getElementById('selectedColor').textContent = `رنگ انتخاب شده: ${selectedColor}`;
+                        console.log(`رنگ انتخاب شده: ${selectedColor}`); // برای تست
+                    });
+                });
+            </script>
+            <div id="selectedColor"></div>  <!-- برای نمایش رنگ انتخاب شده -->
+            
+        </div>
+        
+    </div>
+
+    
+    
+{% endblock %}

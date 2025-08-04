@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %} 
+
+{% block color %}
+    <link rel="stylesheet" href="{% static 'home/css/index.css' %}">
+{% endblock %}
+
+{% if advertisements %}
+    <div class="container-fluid bg-light py-2" style="margin-bottom: 30px;">
+        <div class="row align-items-center">
+            {% for ad in advertisements %}
+                {% if ad.is_active %}
+                    <div class="col-md-12 text-center">
+                        {% if ad.link %}
+                            <a href="{{ ad.link }}" target="_blank" class="text-decoration-none">
+                                <img src="{{ ad.image.url }}" alt="{{ ad.title }}" class="img-fluid rounded" style="max-height: 60px;">
+                                <span class="ms-2 fw-bold text-secondary">{{ ad.title }}</span>
+                            </a>
+                        {% else %}
+                            <img src="{{ ad.image.url }}" alt="{{ ad.title }}" class="img-fluid rounded" style="max-height: 60px;">
+                            <span class="ms-2 fw-bold text-secondary">{{ ad.title }}</span>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}
+
+<!-- templates/home.html -->
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="margin-bottom: 30px;">
+    <div class="carousel-indicators">
+        {% for banner in promo_banners %}
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active" aria-current="true"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+        {% endfor %}
+    </div>
+    <div class="carousel-inner">
+        {% for banner in promo_banners %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                {% if banner.link %}
+                    <a href="{{ banner.link }}">
+                        <img src="{{ banner.image.url }}" class="d-block w-100" alt="{{ banner.title }}">
+                    </a>
+                {% else %}
+                    <img src="{{ banner.image.url }}" class="d-block w-100" alt="{{ banner.title }}">
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<div id="carouselExampleHighlights" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        {% for highlight in highlights %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img src="{{ highlight.image.url }}" class="d-block w-100" alt="{{ highlight.title }}">
+                    </div>
+                    <div class="col-md-6">
+                        <h3>{{ highlight.title }}</h3>
+                        <p>{{ highlight.description }}</p>
+                        {% if highlight.link %}
+                            <a href="{{ highlight.link }}" class="btn btn-primary">بیشتر بخوانید</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleHighlights" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleHighlights" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+<div class="container-fluid" >
+
+  <div class="row">
+
+    <div class="col" style="text-align: end;">
+      {% for category in categories %}   
+      <div class="btn-group">
+        <a href="{{ category.get_absolute_url }}" type="button" class="btn btn-danger">{{category.name}}</a>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+          {% for sub in category.subcategory.all %}
+          <li><a class="dropdown-item" href="{{ sub.get_absolute_url }}">{{sub.name}}</a></li>
+          {% endfor %}
+        </ul></div>
+      {% endfor %}<br><br>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-4 g-2 d-flex flex-row-reverse">
+      {% for product in products %}
+        <div class="col" style="text-align: end">
+          <a href="{% url 'home:product_details' product.slug %}" style="text-decoration: none;">
+            <div class="card h-100">
+              <img src="{{ product.img.url }}" class="card-img-top " alt="..." height="220px" >
+                <div class="card-body" >
+                  <h5 class="card-title" style="text-decoration: rtl;">{{ product.name }}</h5>
+                  <p class="card-text" style="text-decoration: rtl;">{{product.descriptions|truncatewords:20}}</p>
+                </div>
+                <div class="card-footer">
+                  {% if product.avalible %}
+                  <small class="text-body-secondary">{{product.price}} تومان</small>
+                  {% else %}
+                  <small class="text-body-danger" style="color: red;">ناموجود</small>
+                  {% endif %}
+                </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+
+      <br> 
+
+  <nav aria-label="Page navigation" style="margin-top: 30px;">
+    <ul class="pagination justify-content-center">
+        {% if products.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{ products.previous_page_number }}">قبلی</a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">قبلی</span></li>
+        {% endif %}
+
+        {% for i in products.paginator.page_range %}
+            {% if products.number == i %}
+                <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only"></span></span></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if products.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ products.next_page_number }}">بعدی</a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link">بعدی</span></li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}

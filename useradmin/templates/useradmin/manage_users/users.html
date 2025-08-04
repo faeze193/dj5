@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block color %}<script src="{% static 'useradmin/js/user.js' %}"> </script>{% endblock %}
+{% block content %}
+
+<table class="table table-success table-responsive  table-hover">
+    <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">name</th>
+          <th scope="col">phone</th>
+          <th scope="col">active</th>
+          <th scope="col">delete</th>
+          <th scope="col">comments</th>
+          <th scope="col" colspan="2">orders</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr class='clickable-row' data-href="">
+            
+            <th scope="row">{{forloop.counter}}</th>
+            <td><a href="{% url 'useradmin:manage_user_details' user.id %}">{{user.first_name}} {{user.last_name}}</a></td>
+            <td>{{user.phone}}</td>
+            {% if user.is_active %}
+            <td><img src="{% static 'useradmin/img/tick.png' %}" alt="" style="width: 30px;"></td>
+            {% else %}
+            <td><img src="{% static 'useradmin/img/no.png' %}" alt=""></td>
+            {% endif %}
+            
+            <td><a href="{% url 'useradmin:manage_remove_users' user.id %}">remove</a></td>
+            <td>{{user.cuser.all|length}}</td>
+            <td>{{user.ouser.all|length}}</td>
+            <td style="text-align: right;"><a href="{% url 'useradmin:manage_user_details' user.id %}"><button class="btn btn-danger">details</button></a></td>
+            
+          </tr>
+        
+        {% endfor %}
+      </tbody>
+    
+</table>
+
+
+{% endblock %}

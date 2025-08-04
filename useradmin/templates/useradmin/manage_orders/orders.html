@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for order in orders %}
+<small style="display: inline;">{{order.created|date:"SHORT_DATE_FORMAT"}}</small>
+<a href="{% url 'useradmin:manage_orders_details' order.id %}"><button class="btn btn-danger" style="float: right ;margin: 5px;">details</button></a>
+<table class="table table-primary">
+    <thead>
+      
+      <tr>
+        <th scope="col">{{forloop.counter}}</th>
+        <th scope="col">phone</th>
+        <th scope="col">paid</th>
+        <th scope="col">created</th>
+        <th scope="col">discount</th>
+        <th scope="col">total price</th>
+        
+      </tr>
+      
+    </thead>
+    <tbody>
+      <tr>
+        <td>#</td>
+        <td>{{order.user.first_name}} {{order.user.last_name}}</tdr>
+        <td>{{order.paid}}</td>
+        <td>{{order.created|date:"SHORT_DATE_FORMAT"}}</td>
+        <td>{{order.discount}}</td>
+        <td>{{order.get_total_price}}</td>
+      </tr>
+    </tbody>
+</table>
+{% endfor %}
+{% endblock %}

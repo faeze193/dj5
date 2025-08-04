@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load jformat %}
+{% block color %}<link rel="stylesheet" href="{% static 'blog/css/font.css' %}">{% endblock %}
+{% block content %} 
+<form>
+    {% csrf_token %}
+    <div class="input-group">
+        <span class="input-group-text">First and last name</span>
+        <input type="text" aria-label="First name" class="form-control">
+        <input type="text" aria-label="Last name" class="form-control">
+    </div>
+    <br>
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">title</span>
+        <input type="text" class="form-control" placeholder="write your title" aria-label="title" aria-describedby="basic-addon1">
+      </div>
+      
+  <div class="mb-3">
+    <label for="formFile" class="form-label">Default file input example</label>
+    <input class="form-control" type="file" id="formFile">
+  </div>
+  <div class="mb-3">
+    <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>  
+<form>
+    {{form.as_p}}
+</form>
+
+{% endblock %}

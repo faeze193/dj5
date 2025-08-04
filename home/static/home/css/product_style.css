@@ -1,0 +1,73 @@
+.bigfont{
+    font-size: 18px;
+    direction: rtl;
+    
+    
+}
+.dic{
+    direction: rtl;
+}
+
+.smallfont{
+    direction: rtl;
+}
+.smallerfont{
+    font-size: 12px;
+    direction: rtl;
+}
+.notavalible{
+    color: rgb(158, 24, 24);
+    direction: rtl;
+    font-size: 14px;
+}
+
+.avalible{
+    color: rgb(0, 0, 0);
+    direction: rtl;
+    font-size: 14px;
+}
+.checked {
+    color: orange;
+  }
+
+.bignum{
+    font-size: 50px;
+    font-weight: bold;
+
+}
+.fonta{
+    font-weight: bold;
+    font-size: 16px;
+    direction: rtl;
+}
+.fontb{
+    font-weight: bold;
+    font-size: 14px;
+    direction: rtl;
+}
+.fontc{
+    font-size: 9px;
+    text-align: center;
+    color: rgb(87, 90, 89);
+}
+.dot {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+.color-container {
+    display: flex;
+    flex-wrap: wrap; /* برای نمایش رنگ ها در کنار هم */
+    justify-content: flex-end; /* رنگ ها به سمت راست قرار بگیرند */
+    gap: 10px; /* فاصله بین رنگ ها */
+}
+.color-box {
+    width: 30px;
+    height: 30px;
+    cursor: pointer; /* نشان دادن قابلیت کلیک */
+}
+/* برای نمایش رنگ ها */
+
+

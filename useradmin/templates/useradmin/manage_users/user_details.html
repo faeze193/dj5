@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block color %}<link rel="stylesheet" href="{% static 'useradmin/css/user_details.css' %}">{% endblock %}
+{% block content %}
+<div style="margin-bottom: 300px;background-color: azure;"> 
+    <div class="rightcontent">
+       <div>{{user.first_name}} {{user.last_name}}</div>
+       <small>{{user.phone}}</small>
+       <br><hr><br>
+       <div>{{user.email}}</div>
+       <br><hr><br>
+       <div style="display: inline;">active</div>
+       {% if user.is_active %}
+       <div style="float: left;"><img style="width: 25px;" src="{% static 'useradmin/img/tick.png' %}" alt=""></div>
+       {% else %}
+       <div style="float: left;"><img style="width: 25px;" src="{% static 'useradmin/img/no.png' %}" alt=""></div>
+       {% endif %}
+    </div>
+    
+    
+    <div style="display: inline;float: right;margin-left: 12px;">
+        {%if user_addresses%}
+        {% for address in user_addresses %}
+        <table class="table  table-bordered " style="width:550px ;">
+            <thead>
+                <tr class="table-active">
+                <th scope="col">name</th>
+                <th scope="col">ostan</th>
+                <th scope="col">shahrestan</th>
+                <th scope="col">code posty</th>
+                <th scope="col">phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <th scope="row">{{address.user.first_name}} {{address.user.last_name}}</th>
+                <td>{{address.ostan}}</td>
+                <td>{{address.shahrestan}}</td>
+                <td>{{address.codeposty}}</td>
+                <td>{{address.user.phone}}</td>
+                </tr>        
+                <tr class="table-success">
+                    <th scope="row">full address</th>
+                    <td colspan="4">{{address.full_adress}}</td>
+                </tr>    
+            </tbody>
+        </table>
+        {% endfor %}
+        {% else %}
+        <table class="table  table-bordered table-danger" style="width:550px ;">
+            <tr><td style="text-align: center;"> no adresses</td></tr>
+        </table>
+        {% endif %}
+        {% if orders %}
+        <h4 style="display: inline;">orders</h4>
+        {% for order in orders %}
+        <div style="text-align: right;"><small>{{order.created|date:"SHORT_DATE_FORMAT"}}</small></div>
+        <table class="table  table-bordered " style="width:550px ;" >
+            <thead>
+                <tr>
+                    <th scope="col">{{forloop.counter}}</th>
+                    <th scope="col">phone</th>
+                    <th scope="col">paid</th>
+                    
+                    <th scope="col">discount</th>
+                    <th scope="col">total price</th>
+                    
+                  </tr>
+                  
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#</td>
+                    <td>{{order.user.phone}}</tdr>
+                    <td>{{order.paid}}</td>
+                    <td>{{order.discount}}</td>
+                    <td>{{order.get_total_price}}</td>
+                  </tr>   
+                </tbody>
+        </table>
+        
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="leftcontent">
+        <div style="display: inline-block;width: 40%;text-align: left;">{{all_costs}} </div>
+        <div style="display: inline-block;width: 40%;">all costs </div><br>
+        <br><hr><br>
+        <div style="display: inline-block;width: 40%;text-align: left;">{{orders|length}} </div>
+            <div style="display: inline-block;width: 40%;">all orders </div>
+    </div>
+        {% if usercomments %}
+        <div class="leftcomments" >
+            {% for ucomment in usercomments %}
+            <table class=" table ">
+                <thead>
+                    <tr class="table table-primary">
+                        <td>{{ucomment.created|date:"SHORT_DATE_FORMAT" }}</td>
+                        <td>delete</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="2">{{ucomment.user_comment}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {% endfor %}
+            {% endif %}
+        </div>
+    
+        
+    
+    
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load jformat %}
+{% block color %}<link rel="stylesheet" href="{% static 'blog/css/font.css' %}">{% endblock %}
+{% block content %} 
+{% if request.user.is_admin %}
+        <a href="{% url 'blog:blog_create' %}">ارسال بلاگ جدید</a>
+{% endif %}
+<p class="fontalign" style="color: rgb(128, 128, 128);font-size: 28px;font-weight: bold;">مجله اینترنتی تخصصی موبایل</p>
+<p class="fontalign" style="color: rgb(128, 128, 128);font-size: 20px;font-weight: bold;"> وبلاگ موبایل نت (مقالات و اخبار تازه موبایل در فروشگاه موبایل نت)</p><br>
+<br>
+<hr style="color: rgb(180, 180, 180);" >
+<div class="row row-cols-1 row-cols-md-3 g-4" style="direction: rtl;text-align: center;">
+  {% for blog in blogs %}
+  <div class="col">
+    
+      <div class="card h-100">
+        <a href="{% url 'blog:blog_details' blog.slug  %}" style="text-decoration: none;">
+          <img src="{{ blog.img.url }}" class="card-img-top " alt="..." height="220px" >
+          <div class="card-img-overlay" style="text-align: right;">
+            <div style="background-color: white;display: inline-block;text-align: center;">
+              <p style="font-weight: bold;color: black;">{{blog.created|jformat:" %d" }}</p>
+              <p style="font-weight: lighter;font-size: small;color: black;">{{blog.created|jformat:" %B " }}</p>
+            </div>
+            <div class="card-img-overlay" style="text-align: center;margin-top: 185px;">
+              <p style="background-color: rgb(245, 150, 30);display: inline-block;margin-bottom: 0px;color: white;font-size: 12px;padding-top: 3px;
+              padding-right: 11px;padding-left: 11px;padding-bottom: 3px;border-radius: 0.3rem;">بلاگ</p>
+            </div>
+          </div>
+        </a>
+          <div class="card-body">
+              <h5 class="card-title" style="direction: rtl;font-size: 16px;font-weight: bold;">{{blog.title}}
+              </h5><br>
+              <p class="card-text" style="direction: rtl;font-size: 14px;color: gray;">{{blog.descriptions|truncatewords:19}}.</p>
+              <a href="{% url 'blog:blog_details' blog.slug %}" style="text-decoration: none;"><p style="color: rgb(245, 150, 30);font-size: 14px;font-weight: bold;">ادامه مطلب</p></a>
+          </div>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

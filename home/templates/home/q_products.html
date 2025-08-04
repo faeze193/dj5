@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %} 
+{% load static %}
+{% block color %}
+    <link rel="stylesheet" href="{% static 'home/css/q_products.css' %}">
+{% endblock %}
+
+<h2>نتایج جستجو :</h2>
+<ul>
+  {% for product in products %}
+<div class="row row-cols-1 row-cols-md-4 g-2 flex-row-reverse">
+  <div class="col" style="text-align: end">
+    <a href="{% url 'home:product_details' product.slug %}" style="text-decoration: none;">
+      <div class="card h-100">
+        <img src="{{ product.img.url }}" class="card-img-top " alt="..." height="220px" >
+          <div class="card-body" >
+            <h5 class="card-title" style="text-decoration: rtl;">{{ product.name }}</h5>
+            <p class="card-text" style="text-decoration: rtl;">{{product.descriptions|truncatewords:20}}</p>
+          </div>
+          <div class="card-footer">
+            {% if product.avalible %}
+            <small class="text-body-secondary">{{product.price}}تومان</small>
+
+            
+            {% else %}
+            <small class="text-body-danger" style="color: red;">ناموجود</small>
+            {% endif %}
+          </div>
+      </div>
+    </a>
+</div>
+
+<br><br>
+    {% empty %}
+        <h2 style="color: orangered;">هیچ کالایی یافت نشد.</h2>
+    {% endfor %}
+</ul>
+
+{% endblock %}

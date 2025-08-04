@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load jformat %}
+{% block color %}<link rel="stylesheet" href="{% static 'blog/css/font.css' %}">{% endblock %}
+{% block content %} 
+    <div class="content">
+        <br><p class="blog_b">بلاگ</p><br>
+        <p class="title">{{blog.title}}</p><br>
+        <p class="senderdate">ارسال توسط {{blog.sender}}&nbsp&nbsp  در تاریخ {{blog.created|jformat:"%d/ %m/ %Y "}}</p>
+        <img src="{{blog.img.url}}" alt="" style="width: 900px;border-radius: 0.2rem;" >
+        <br>
+        <br>
+        <p class="descriptons">{{blog.descriptions}}</p><br>
+        {% for sblog in sub_blog %}
+        <p class="stitle">{{sblog.title}}</p><br>
+        {% if sblog.img %}
+        <img src="{{sblog.img.url}}" alt="" style="width: 900px;border-radius: 0.2rem;" >
+        {% endif %}
+        <br>
+        <p class="descriptons">{{sblog.descriptions}}</p><br>
+        {% endfor %}<br>
+    </div>
+
+    <div class="table1" >
+        a
+    </div>
+
+
+{% endblock %}

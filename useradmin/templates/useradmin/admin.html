@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">user management</h5>
+          <p class="card-text">you can manage your users in this website.</p>
+          <a href="{% url 'useradmin:manage_users' %}" class="btn btn-primary">click here</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">order management</h5>
+          <p class="card-text">you can see all your orders details here.</p>
+          <a href="{% url 'useradmin:manage_orders' %}" class="btn btn-primary">see orders</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">products</h5>
+          <p class="card-text">you can add ,change and delete products here.</p>
+          <a href="{% url 'useradmin:manage_products' %}" class="btn btn-primary">click here</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Special title treatment</h5>
+          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}

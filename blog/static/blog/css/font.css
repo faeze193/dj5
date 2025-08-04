@@ -1,0 +1,47 @@
+.fontalign{
+    direction: rtl;
+    text-align: center;
+}
+.content{
+    width: 900px;
+    float: right;
+    
+}
+.blog_b{
+    background-color: rgb(245, 150, 30);
+    border-radius: 0.2rem;
+    color: white;
+    text-align: center;
+    width: 40px;
+    margin: auto;
+    font-size: 13px;
+    padding: 3px;
+}
+.title{
+    font-size: 30px;
+    text-align: center;
+    color: black;
+}
+.stitle{
+    font-size: 26px;
+    text-align: right;
+
+}
+.senderdate{
+    font-size: small;
+    color: gray;
+    direction: rtl;
+    text-align: center;
+}
+.descriptons{
+    direction: rtl;
+    text-align: right;
+    font-size: small;
+    color: grey;
+
+}
+.table1{
+    width: 200px;
+}
+
+    

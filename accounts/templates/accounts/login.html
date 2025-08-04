@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block color %}
+    <link rel="stylesheet" href="{% static 'accounts/login.css' %}">
+{% endblock %}
+
+{% block content %} 
+    <form method="post"  action="" novalidate >
+        {% csrf_token %}
+        <div style="width: 30%;margin: auto;font-size: 28px;color: white;text-align: center;margin: auto;margin-top: 80px;">{{form|crispy}}
+        <input type="submit" value=" تایید" class="btn btn-primary" style="margin-top: 40px;">
+        </div>
+    </form>
+]
+{% endblock %}

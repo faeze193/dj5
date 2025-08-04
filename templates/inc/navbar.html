@@ -1,0 +1,60 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid" >
+      <a class="navbar-brand" href="{% url 'home:home'%}" style="color: brown;">TechLine</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if request.user.is_admin %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'useradmin:useradmin' %}">admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home:bucket_home' %}">bucket</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog:blog' %}">وبلاگ</a>
+          </li>
+        </ul>
+        
+        <div style="margin: 0px 0px 0px 15px;display: block;">
+            <a class="icon-link" href="{% url 'orders:cart' %}" >
+              <img src="{% static 'img/cart.png' %}" alt="" width="25px" style="display: inline-block;">
+              <span class="position-absolute top-10 start-60 translate-middle badge rounded-pill bg-danger">
+                {{cart|length}}
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            </a> 
+        </div>
+        <div class="dropdown" style="display:block;margin: 0px 15px 0px 15px">
+          <img src="{% static 'img/profile.png' %}"  alt="" width="25px" class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <ul class="dropdown-menu">
+            {% if request.user.is_authenticated %}
+              <li><a class="dropdown-item" href="{% url 'accounts:addresses' %}">آدرس ها<img src="{% static 'img/address.png' %}" width="15px" style="float: right;"></a></li>
+              <li><a class="dropdown-item" href="{% url 'orders:paid_orders' request.user.id %}">my orders<img src="{% static 'img/cart2.png' %}" width="15px" style="float: right;"></a></li>
+              <li><a class="dropdown-item" href="">پیام ها<img src="{% static 'img/messages.png' %}" width="15px" style="float: right;"></a></li><br>
+              <li><a class="btn btn-danger" style="display: block;"  href="{% url 'accounts:user_logout' %}">خروج </a></li>            
+              {% else %}
+              <li><a class="dropdown-item" href="{% url 'accounts:user_register_phone' %}">ثبت نام</a></li>
+              <li><a class="dropdown-item" href="{% url 'accounts:user_login' %}">ورود</a></li>
+              
+              
+
+          
+
+            {% endif %}
+            </ul>
+        </div>
+            <form class="d-flex" role="search" method="get" action="{% url 'home:product_search' %}">
+              
+              <input class="form-control me-2" name="q" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            
+            
+      </div>
+    </div>
+  </nav>

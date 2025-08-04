@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %} 
+<small>{{order.created|date:"SHORT_DATE_FORMAT"}}</small>
+<table class="table table-info">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">products</th>
+        <th scope="col">quantity</th>
+        <th scope="col">price</th>
+        <th scope="col">total</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+        {% for item in orderitems %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td><a href="{% url 'home:product_details' item.product.slug %}">{{item.product}}</a></td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.price}}</td>
+        <td>{{item.get_cost}}</td>
+      </tr>  
+      {% endfor %}
+      <tr>
+        <th scope="col" colspan="4">total price</th>
+      <th>{{order.get_total_price}}</th>
+      </tr>
+</table>
+{% endblock %}

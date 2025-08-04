@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %} 
+
+    {% for address in addresses %}
+   
+    <table class="table table-success table-striped">
+        <thead>
+            <tr>
+              <th scope="col">ostan</th>
+              <th scope="col">sherestan</th>
+              <th scope="col">phone</th>
+              <th scope="col">code posty</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <th scope="row">{{address.ostan}}</th>
+              <td>{{address.shahrestan}}</td>
+              <td>{{address.phone_number}}</td>
+              <td>{{address.codeposty}}</td>
+            </tr>
+        </tbody>
+      </table>
+    {% endfor %}
+    
+{% endblock %}

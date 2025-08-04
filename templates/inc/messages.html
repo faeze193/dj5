@@ -1,0 +1,8 @@
+<div style="direction: rtl;font-size: 14px;">
+{% if messages %}
+    {% for msg in messages %}
+        <p class="alert alert-{{msg.tags}}">{{msg}}</p>
+    {% endfor %}
+{% endif %}
+</div>
+    

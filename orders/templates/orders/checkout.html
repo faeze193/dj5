@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block color %}
+<link rel="stylesheet" href="{% static 'orders/css/order_style.css' %}">
+{% endblock %}
+{% block content %} 
+<h3>
+    check out
+</h3>
+<p class="total">
+    {{order.get_total_price}}
+</p>
+<br><br>
+<form method="post" action="{% url 'orders:coupon_apply' order.id %}">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="apply">
+</form>
+<br><br>
+ <a href="{% url 'accounts:addresses' %}"><button>add new address</button></a>
+<a href="" type="button" class="btn btn-info">check out</a>
+{% endblock %}
+
+
+

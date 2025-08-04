@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h4 style="display: block;margin: 15px auto 15px auto;text-align: center;">{{user.first_name}} {{user.last_name}}</h4>
+<table class="table table-success table-striped">
+    <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">name</th>
+          <th scope="col">created</th>
+          <th scope="col">comment</th>
+          <th scope="col">score</th>
+          <th scope="col">download imag</th>
+          <th scope="col">delete this comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for comment in comments %}
+        <tr>
+          <th scope="row">1</th>
+          <td>{{user.first_name}} {{user.last_name}}</td>
+          <td>{{comment.created}}</td>
+          <td>{{comment.user_comment}}</td>
+          <td>{{comment.score}}</td>
+          {% if comment.img %}
+          <td><a href="{{ comment.img.url }}" download>download</a></td>
+          {% else %}
+          <td style="color: brown;">no image</td>
+          {% endif %}
+          <td><a href="{% url 'useradmin:manage_comment_delete' comment.id %}">delete</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    
+</table>
+
+
+{% endblock %}

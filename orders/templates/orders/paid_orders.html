@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %} 
+{% for order in orders %}
+<table class="table table-warning">
+    <thead>
+      
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">created</th>
+        <th scope="col">discount</th>
+        <th scope="col" colspan="2">total price</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{order.created}}</td>
+        <td>{{order.discount}}</td>
+        <td>{{order.get_total_price}}</td>
+        <td><a href="{% url 'orders:paid_orders_details' request.user.id order.id %}"><button class="btn btn-danger" style="float: right;">details</button></a></td>
+      </tr>
+    </tbody>
+</table>
+{% endfor %}
+{% endblock %}
