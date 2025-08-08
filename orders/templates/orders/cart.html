@@ -1,40 +1,80 @@
 {% extends 'base.html' %}
 {% block content %} 
 
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">name</th>
-        <th scope="col">quantity</th>
-        <th scope="col">price</th>
-        <th scope="col">total price</th>
-        <th scope="col">remove</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in cart %}
-      <tr>
-        <th scope="row">{{forloop.counter}}</th>
-        <td>{{item.product}}</td>
-        <td>{{item.quantity}}</td>
-        <td>{{item.price}}</td>
-        <td>{{item.total_price}}</td>
-        <td><a href="{% url 'orders:cart_remove' item.product.id %}">remove</a></td>
-      </tr>
-      {% endfor %}
-      <tr>
-        <td>total price</td>
-        <td colspan="4"></td>
-        <td>{{cart.total_price}}</td>
-      </tr>
-    </tbody>
-</table>
 
-<div>
-  <a href="{% url 'orders:order_create' %}" type="button" class="btn btn-info">order</a>
+<div class="container-fluid" >
+ <div class="row d-flex flex-row-reverse" style="padding-top: 30px;">
+  {% if cart%}
+  <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
+    <table class="table" style="direction: rtl;">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">محصول</th>
+            <th scope="col">تعداد</th>
+            <th scope="col">قیمت</th>
+            <th scope="col">حذف</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{item.product|truncatewords:5}}</td>
+            <td>{{item.quantity}}</td>
+            <td >{{item.price}}</td>
+            
+            <td><a href="{% url 'orders:cart_remove' item.product.id %}" style="text-decoration: none;">x</a></td>
+          </tr>
+           {% endfor %}
+        </tbody>
+      </table>
+         
+    </div>
+
+
+
+    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 ">
+        <div class="card">
+            <div class="card-header text-center bg-light">
+                <h5 class="card-title mb-0">مجموع کل سبد خرید</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between mb-3">
+                  <span>{{cart.total_price}}</span>
+                    <span>قیمت کل</span>
+                    
+                </div>
+                <hr>
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between">
+                      <span>تیباکس ، پست پیشتاز</span>
+                        <span>حمل و نقل</span>
+                        
+                    </div>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>مجموع</span>
+                    <span>{{cart.total_price}}</span>
+                </div>
+            </div>
+            <div class="card-footer bg-light text-center">
+              
+                <a href="{% url 'orders:order_create' %}" ><button class="btn btn-warning btn-lg w-100" style="color: white;">اقدام به پرداخت</button></a>
+                
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <h1 style="text-align: center;direction: rtl;padding-top: 100px;">سبد خرید شما در حال حاضر خالی است.</h1>
+
+
+
+    {%endif%}
+  </div>
 </div>
-{% endblock %}
+    {% endblock %}
 
 
 
